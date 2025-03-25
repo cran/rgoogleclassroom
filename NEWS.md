@@ -1,3 +1,5 @@
-# rgoogleclassroom 0.9.1
+# rgoogleclassroom 1.0.0
 
-* Some issues with ottrpal_translate()'s handling of quizzes were fixed. 
+* Get rid of unused packages
+* Fix doc note
+* Remove ottrpal dependency

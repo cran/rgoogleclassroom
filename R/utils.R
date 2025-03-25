@@ -1,6 +1,21 @@
+#' Pipe operator
+#'
+#' See \code{magrittr::\link[magrittr:pipe]{\%>\%}} for details.
+#'
+#' @name %>%
+#' @rdname pipe
+#' @keywords internal
+#' @export
+#' @importFrom magrittr %>%
+#' @usage lhs \%>\% rhs
+#' @param lhs A value or the magrittr placeholder.
+#' @param rhs A function call using the magrittr semantics.
+#' @return The result of calling `rhs(lhs)`.
+NULL
+
 utils::globalVariables(c(
   "link", "point_value", "formatted_df", "form_info", "all_answers", "question",
-  "type", "original", "trimmed", "shuffle_opt", "index"
+  "type", "original", "trimmed", "shuffle_opt", "index", "quiz_path"
 ))
 
 #' Generate endpoint for the Google classroom API
@@ -67,13 +82,13 @@ get_endpoint <- function(type_of_endpoint = "classroom.endpoint.user",
   # Find out which need to be set based on endpoint grep
   which_to_set <- sapply(names(variables_list), grepl, x = endpoint, fixed = TRUE)
 
-  variables_list <- as.vector(variables_list[which_to_set])
+  variables_list <- unlist(variables_list[which_to_set])
 
   # Go through each variable and replace it with the function defined ids to build the URL
   if (length(variables_list) > 0) {
     for (item in 1:length(variables_list)) {
       # If the variable is null stop.
-      if (is.null(variables_list[[item]])) stop(paste("Variable not set. Require:", names(variables_list)[item]))
+      if (is.null(variables_list[item])) stop(paste("Variable not set. Require:", names(variables_list)[item]))
 
       # Replace the variable with the thing set
       url_temp <- gsub(names(variables_list)[item], variables_list[item], url_temp, fixed = TRUE)
